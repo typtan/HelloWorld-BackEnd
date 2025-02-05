@@ -1,12 +1,19 @@
 import express from "express";
 import connection from "./config/database.js";
+import roomRoute from "./routes/roomRoute.js";
 import cors from "cors";
+import { logger } from "./middlewares/logger.js";
+import { getRoomById, updateRoomStatus } from "./models/roomModel.js";
 
-const express = require('express');
 const app = express();
 const port = 3000;
 
+app.use(logger);
+app.use(express.json());
 app.use(cors());
+app.use("/api/room", roomRoute);
+
+
 
 connection.connect((error) => {
     if (error) {

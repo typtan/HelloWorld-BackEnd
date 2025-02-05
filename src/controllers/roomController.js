@@ -1,4 +1,4 @@
-import * as Room from "../models/roomModel";
+import * as Room from "../models/roomModel.js";
 
 export const getAllRoom = async (req, res) => {
     try {
@@ -28,19 +28,22 @@ export const getAllRoom = async (req, res) => {
 };
 
 export const updateRoomStatus = async (req, res) => { 
-    const { id } = req.params;
-    const { status } = req.body;
-
+    const { id, status } = req.body;
+        if (!id || !status) {
+            return res.status(400).json({
+                success: false,
+                data: null,
+                message: "ID and Status is required"
+            })
+    } 
     try {
-        const room = await Room.updateRoomStatus(id, status);
-
+        const room = await Room.getRoomById(id);
         if (!room || room.length === 0) {
             return res.status(404).json({ message: 'Room not found' });
         }
 
         await Room.updateRoomStatus(id, status);
-
-        res.json({
+        return res.json({
             success: true,
             message: `Room status updated to ${status}`
         });
