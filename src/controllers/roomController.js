@@ -27,6 +27,7 @@ export const getAllRoom = async (req, res) => {
     }
 };
 
+
 export const updateRoomStatus = async (req, res) => { 
     const { id, status } = req.body;
         if (!id || !status) {
