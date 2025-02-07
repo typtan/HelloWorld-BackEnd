@@ -2,7 +2,7 @@ import db from "../config/database.js"
 
 export const getBooking = async() => {
     const [response] = await db.promise().query(
-        `SELECT staff_id, fname, lname, room_id, start_time, end_time
+        `SELECT book_id, staff_id, fname, lname, room_id, start_time, end_time
     FROM floor11LX_bookings`
     );
     return response;
@@ -10,7 +10,7 @@ export const getBooking = async() => {
 
 export const getBookingById = async(bookId) => {
     const [response] = await db.promise().query(
-        `SELECT fname, lname, room_id, start_time, end_time
+        `SELECT book_id, fname, lname, room_id, start_time, end_time
         FROM floor11LX_bookings
         WHERE book_id = ?`,
         [bookId]
