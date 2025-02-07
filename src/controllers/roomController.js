@@ -27,6 +27,40 @@ export const getAllRoom = async (req, res) => {
     }
 };
 
+export const getBookingฺByDay = async (req, res) => {
+    const { roomId } = req.body;
+    const {bookDate} = req.body;
+    try {
+        if(!roomId){
+            return res.status(400).json({
+                success: false,
+                data: null,
+                message: "Booking Date is required"
+            });
+        }
+        const rows = await Room.getBookingฺByDay(roomId, bookDate);
+        if (rows.length === 0) {
+            return res.status(200).json({
+                success: true,
+                data: [],
+                message: `No bookings found for ${roomId}`
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            data: rows,
+            message: `Bookings retrieved successfully for ${roomId}`
+        });
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(500).json({
+            success: false,
+            data: null,
+            message: "An error occurred while retrieving bookings. Please try again later"
+        });
+    }
+};
 
 export const updateRoomStatus = async (req, res) => { 
     const { id, status } = req.body;
