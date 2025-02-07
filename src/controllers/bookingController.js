@@ -80,7 +80,7 @@ export const addBooking = async (req, res) => {
     const { roomId, staffId, fname, lname, descri, startT, endT } = req.body;
 
     // Validate input
-    if (!roomId || !staffId || !fname || !lname || !descri || !startT || !endT) {
+    if (!roomId || !staffId || !fname || !lname || !startT || !endT) {
         return res.status(400).json({
             success: false,
             data: null,
@@ -107,7 +107,7 @@ export const addBooking = async (req, res) => {
     }
 
     try {
-        const bookId = await bookingModel.addBooking(roomId, staffId, fname, lname, descri, startT, endT);
+        const bookId = await bookingModel.addBooking(roomId, staffId, fname, lname, startT, endT);
 
         await currentModel.addCurrentRoom(roomId, bookId, startT, endT) //insert to current_room table
 
@@ -136,7 +136,7 @@ export const addBooking = async (req, res) => {
 
 export const updateBooking = async(req,res) => {
     const { bookId } = req.params;
-    const { roomId, staffId, fname, lname, descri, startT, endT } = req.body;
+    const { roomId, staffId, fname, lname, startT, endT } = req.body;
     if (!bookId) {
         return res.status(400).json({
             success: false,
@@ -150,7 +150,6 @@ export const updateBooking = async(req,res) => {
     if (staffId) updateFields.staff_id = staffId;
     if (fname) updateFields.fname = fname;
     if (lname) updateFields.lname = lname;
-    if (descri) updateFields.description = descri;
     if (startT) updateFields.start_time = startT;
     if (endT) updateFields.end_time = endT;
 
@@ -163,7 +162,7 @@ export const updateBooking = async(req,res) => {
     }
     
     try {
-        await bookingModel.updateBooking(bookId, roomId, staffId, fname, lname, descri, startT, endT);
+        await bookingModel.updateBooking(bookId, roomId, staffId, fname, lname, startT, endT);
         return res.status(200).json({
             success: true,
             data: null,

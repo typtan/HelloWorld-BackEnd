@@ -2,8 +2,8 @@ import db from "../config/database.js"
 
 export const getBooking = async() => {
     const [response] = await db.promise().query(
-        `SELECT fname, lname, room_id, start_time, end_time
-        FROM floor11LX_bookings`
+        `SELECT staff_id, fname, lname, room_id, start_time, end_time
+    FROM floor11LX_bookings`
     );
     return response;
 };
@@ -18,11 +18,11 @@ export const getBookingById = async(bookId) => {
     return response;
 }
 
-export const addBooking = async (roomId, staffId, fname, lname, descri, startT, endT) => {
+export const addBooking = async (roomId, staffId, fname, lname, startT, endT) => {
     const [response] = await db.promise().query(
-        `INSERT INTO floor11LX_bookings (room_id, staff_id, fname, lname, description, start_time, end_time)
-        VALUES (?, ?, ?, ?, ?, ?, ?)`, 
-        [roomId, staffId, fname, lname, descri, startT, endT]
+        `INSERT INTO floor11LX_bookings (room_id, staff_id, fname, lname, start_time, end_time)
+        VALUES (?, ?, ?, ?, ?, ?)`, 
+        [roomId, staffId, fname, lname, startT, endT]
     );
     return response.insertId; //return bookId
 };
@@ -43,7 +43,6 @@ export const updateBooking = async (bookId, roomId, staffId, fname, lname, descr
         [roomId, staffId, fname, lname, descri, startT, endT, bookId]  //bookId be LAST
     );
 };
-
 
 
 export const deleteBooking = async (bookId) => {
