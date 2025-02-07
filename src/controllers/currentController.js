@@ -10,7 +10,7 @@ export const getCurrentRoom = async(req,res) => {
         });
     } catch (error) {
         console.log("Error:", error);
-        return res.status(500).json({ //ส่งข้อมูลกลับแบบ json
+        return res.status(500).json({
             success: false,
             data: null,
             message: "Internal server error"

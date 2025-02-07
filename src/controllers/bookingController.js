@@ -53,6 +53,29 @@ export const getBookingById = async(req, res) => {
     }
 }
 
+function BookingAvailable() {
+    const currentTime = new Date();
+    
+    const currentHour = currentTime.getHours(); 
+    const currentMinute = currentTime.getMinutes();
+  
+    const startHour = 8;  
+    const endHour = 20;    
+    
+    if (currentHour >= startHour && currentHour < endHour) {
+      if (currentHour === endHour && currentMinute > 0) {
+        console.log("Booking time is over");
+        return false; 
+      } else {
+        console.log("Booking is available");
+        return true; 
+      }
+    } else {
+      console.log("Booking time is over");
+      return false; 
+    }
+  }
+
 export const addBooking = async (req, res) => {
     const { roomId, staffId, fname, lname, descri, startT, endT } = req.body;
 
@@ -182,3 +205,5 @@ export const deleteBooking = async(req,res) => {
         });
     }
 }
+
+BookingAvailable();

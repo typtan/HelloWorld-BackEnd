@@ -22,7 +22,7 @@ export const getAllRoom = async (req, res) => {
         return res.status(500).json({
             success: false,
             data: null,
-            message: "Server error"
+            message: "Error fetched all rooms"
         });
     }
 };
@@ -51,5 +51,29 @@ export const updateRoomStatus = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
+    }
+};
+
+export const addRoom = async (req, res) => { 
+    const { id, status } = req.body;
+        if (!id || !status) {
+            return res.status(400).json({
+                success: false,
+                data: null,
+                message: "ID and Status is required"
+            })
+    } 
+    try {
+        const roomId = await roomModel.addRoom(roomName, roomDescription, capacity);
+        return res.status(201).json({
+            success: true,
+            message: "Room added successfully"
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            message: "Error adding room"
+        });
     }
 };
